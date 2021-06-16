@@ -1,0 +1,14 @@
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\bin\Debug\netcoreapp2.1\APIUsers.deps.json
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\bin\Debug\netcoreapp2.1\APIUsers.runtimeconfig.json
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\bin\Debug\netcoreapp2.1\APIUsers.runtimeconfig.dev.json
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\bin\Debug\netcoreapp2.1\APIUsers.dll
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\bin\Debug\netcoreapp2.1\APIUsers.pdb
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.csprojAssemblyReference.cache
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.csproj.CoreCompileInputs.cache
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.RazorAssemblyInfo.cache
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.RazorAssemblyInfo.cs
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.AssemblyInfoInputs.cache
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.AssemblyInfo.cs
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.RazorTargetAssemblyInfo.cache
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.dll
+C:\Users\dfedu\source\repos\APIUsers\APIUsers\obj\Debug\netcoreapp2.1\APIUsers.pdb
