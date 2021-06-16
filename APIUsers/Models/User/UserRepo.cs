@@ -6,6 +6,7 @@ using RepoDb;
 using Microsoft.Data.SqlClient;
 using APIUsers.Models.User;
 using APIUsers.Models.Validations;
+using static APIUsers.Models.User.Users;
 
 namespace APIUsers.Models.User
 {
@@ -24,7 +25,7 @@ namespace APIUsers.Models.User
 
         public bool Create(Users user)
         {
-            if(IsValidationTrue(user))
+            if(IsValidationTrue(user.email, user.password))
             {
                 user.password = Utils.Encrypt(user.password);
 
@@ -51,12 +52,28 @@ namespace APIUsers.Models.User
             return false;
         }
 
-        public Users[] Get()
+        public List<Object> Get()
         {
+            List<Object> usersList = null;
+
             using (var conn = new SqlConnection(connectionString))
             {
-                return conn.QueryAll<Users>().ToArray();
+                var users = conn.QueryAll<Users>().ToArray();
+                if (users != null)
+                {
+                    usersList = new List<Object>();
+                    foreach (var user in users)
+                    {
+                        usersList.Add(user.ReadOnly());
+                    }
+
+                    return usersList;
+                }
+
+                response[errorKey] = Utils.NotFoundResponse();
             }
+
+            return usersList;
         }
 
         public Users Get(int id)
@@ -67,21 +84,76 @@ namespace APIUsers.Models.User
             }
         }
 
-        private bool IsValidationTrue(Users userModel)
+        public Users Put(int id, UserEdit editedUser)
+        {
+
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var dbUser = conn.Query<Users>(u => u.userID == id).FirstOrDefault();
+
+                if (dbUser != null)
+                {
+                    if (IsValidationTrue(editedUser.email, editedUser.password))
+                    {
+                        dbUser = UpdateWithEdit(dbUser, editedUser);
+
+                        if (!string.IsNullOrEmpty(editedUser.password))
+                        {
+                            dbUser.password = Utils.Encrypt(editedUser.password);
+                        }
+
+                        conn.Update(dbUser);
+                        return dbUser;
+                    }
+
+                    return null;
+                }
+
+                response[errorKey] = Utils.NotFoundResponse();
+            }
+
+            return null;
+        }
+
+        
+        public bool Delete(int id)
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                var dbUser = conn.Query<Users>(u => u.userID == id).FirstOrDefault();
+
+                if (dbUser != null)
+                {
+                    conn.Delete(dbUser);
+                    return true;
+                }
+
+                response[errorKey] = Utils.NotFoundResponse();
+            }
+                return false;
+        }
+        
+
+        private bool IsValidationTrue(string email=null, string password=null)
         {
             Dictionary<string, object> regexErrors = new Dictionary<string, object>();
 
-            if (!UserValidation.EmailAddress(userModel.email))
+            if (!string.IsNullOrEmpty(email))
             {
-                regexErrors.Add("email", UserConstants.emailRegexErrorMsg);
-                
+                if (!UserValidation.EmailAddress(email))
+                {
+                    regexErrors.Add("email", UserConstants.emailRegexErrorMsg);
+                }
             }
-
-            if (!UserValidation.Password(userModel.password))
+            
+            if (!string.IsNullOrEmpty(password))
             {
-                regexErrors.Add("password", UserConstants.passwordRegexErrorMsg);
-                
+                if (!UserValidation.Password(password))
+                {
+                    regexErrors.Add("password", UserConstants.passwordRegexErrorMsg);
+                }
             }
+            
 
             if(regexErrors.Count() != 0)
             {
@@ -95,6 +167,29 @@ namespace APIUsers.Models.User
         public Dictionary<string, object> UserErrorResponse()
         {
             return response;
+        }
+
+        private Users UpdateWithEdit(Users user, UserEdit editedUser)
+        {
+            foreach (var prop in editedUser.GetType().GetProperties())
+            {
+                string propName = prop.Name;
+                var valueEdited = editedUser.GetType().GetProperty(prop.Name).GetValue(editedUser, null);
+                var value = user.GetType().GetProperty(prop.Name).GetValue(user, null);
+                if (valueEdited != null)
+                {
+                    
+                    if (valueEdited.ToString() != value.ToString())
+                    {
+                        if(propName != "password")
+                        {
+                            user.GetType().GetProperty(prop.Name).SetValue(user, valueEdited);
+                        }
+                       
+                    }
+                }
+            }
+            return user;
         }
     }
 }

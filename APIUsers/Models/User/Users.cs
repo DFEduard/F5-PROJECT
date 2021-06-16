@@ -34,6 +34,16 @@ namespace APIUsers.Models.User
             return new { userID = this.userID, email = this.email, title = this.title, name = this.name, country = this.country };
 
         }
+
+        public class UserEdit
+        {
+            public string email { get; set; }
+            public string password { get; set; }
+            public string title { get; set; }
+            public string name { get; set; }
+            public string country { get; set; }
+        }
+
     }
 
 }

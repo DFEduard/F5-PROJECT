@@ -8,6 +8,7 @@ using APIUsers.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Data.SqlClient;
+using static APIUsers.Models.User.Users;
 
 namespace APIUsers.Controllers
 {
@@ -60,16 +61,36 @@ namespace APIUsers.Controllers
             var users = userRepo.Get();
             if (users != null)
             {
-                List<Object> usersList = new List<Object>();
-                foreach (var user in users)
-                {
-                    usersList.Add(user.ReadOnly());
-                }
-                return Ok(usersList);
+                return StatusCode(200,users);
             }
 
-            return StatusCode(404, Utils.NotFoundResponse());
-            
+            return StatusCode(404, userRepo.UserErrorResponse());
+        }
+
+        [Authorize(ActiveAuthenticationSchemes = "Bearer")]
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]UserEdit user)
+        {
+            var _user = userRepo.Put(id, user);
+            if (_user != null)
+            {
+                return StatusCode(200, _user.ReadOnly());
+            }
+
+            return StatusCode(400, userRepo.UserErrorResponse());
+        }
+
+        [Authorize(ActiveAuthenticationSchemes = "Bearer")]
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var response = userRepo.Delete(id);
+            if (response)
+            {
+                return StatusCode(200);
+            }
+
+            return StatusCode(400, userRepo.UserErrorResponse());
         }
     }
 }
