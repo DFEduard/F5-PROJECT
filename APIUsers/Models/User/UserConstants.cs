@@ -13,5 +13,7 @@ namespace APIUsers.Models.User
         public const string emailRegexErrorMsg = "Invalid email";
         public const string passwordRegexErrorMsg = "Password must contain minimum eight characters, at least one letter, one number and one special character";
         public const string emailExistsErrorMsg = "User with the same email already exists.";
+        public const string adminUserError = "This user cannot be deleted";
+        public const string userSaveError = "User could not be saved!";
     }
 }

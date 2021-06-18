@@ -27,10 +27,10 @@ namespace APIUsers.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Users user)
         {
-
-            if (userRepo.Create(user))
+            var dbUser = userRepo.Create(user);
+            if (dbUser != null)
             {
-                return StatusCode(201, user.ReadOnly(true));
+                return StatusCode(201, dbUser.ReadOnly());
             }
 
             return StatusCode(400, userRepo.UserErrorResponse());

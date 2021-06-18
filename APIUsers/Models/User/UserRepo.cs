@@ -23,7 +23,7 @@ namespace APIUsers.Models.User
             response.Add(errorKey, "");
         }
 
-        public bool Create(Users user)
+        public Users Create(Users user)
         {
             if(IsValidationTrue(user.email, user.password))
             {
@@ -37,19 +37,28 @@ namespace APIUsers.Models.User
                     if(userID > 0)
                     {
                         response[errorKey] = UserConstants.emailExistsErrorMsg;
-                        return false;
+                        return null;
                     }
 
 
                     conn.ExecuteNonQuery("INSERT INTO Users (email, password, name, title, country) VALUES (@email, @password, @name, @title, @country)",
                     new { user.email, user.password, user.name, user.title, user.country });
-                    return true;
+
+                    var resultUser = conn.Query<Users>(u => u.email == user.email).FirstOrDefault();
+
+                    if (resultUser != null)
+                    {
+                        return resultUser;
+                    }
+
+                    response[errorKey] = UserConstants.userSaveError;
+                    return null;
 
                 }
                 
             }
 
-            return false;
+            return null;
         }
 
         public List<Object> Get()
@@ -124,8 +133,15 @@ namespace APIUsers.Models.User
 
                 if (dbUser != null)
                 {
-                    conn.Delete(dbUser);
-                    return true;
+                    if (dbUser.email != "admin@admin.com")
+                    {
+                        conn.Delete(dbUser);
+                        return true;
+                    }
+
+                    response[errorKey] = UserConstants.adminUserError;
+                    return false;
+                    
                 }
 
                 response[errorKey] = Utils.NotFoundResponse();
@@ -138,7 +154,7 @@ namespace APIUsers.Models.User
         {
             Dictionary<string, object> regexErrors = new Dictionary<string, object>();
 
-            if (!string.IsNullOrEmpty(email))
+            if (email != null)
             {
                 if (!UserValidation.EmailAddress(email))
                 {
@@ -146,7 +162,7 @@ namespace APIUsers.Models.User
                 }
             }
             
-            if (!string.IsNullOrEmpty(password))
+            if (password != null)
             {
                 if (!UserValidation.Password(password))
                 {
@@ -179,7 +195,7 @@ namespace APIUsers.Models.User
                 if (valueEdited != null)
                 {
                     
-                    if (valueEdited.ToString() != value.ToString())
+                    if (valueEdited.ToString() != value.ToString() && !string.IsNullOrEmpty(valueEdited.ToString()))
                     {
                         if(propName != "password")
                         {

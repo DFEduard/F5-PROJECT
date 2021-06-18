@@ -7,6 +7,6 @@ namespace APIUsers
 {
     public static class GlobalConstants
     {
-        public const string NotFountErrorMsg = "Not Found."; 
+        public const string NotFountErrorMsg = "Not Found.";
     }
 }

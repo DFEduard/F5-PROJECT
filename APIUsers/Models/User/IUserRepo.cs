@@ -6,7 +6,7 @@ namespace APIUsers.Models.User
 {
     public interface IUserRepo
     {
-        bool Create(Users user);
+        Users Create(Users user);
         List<Object> Get();
         Users Get(int id);
         Users Put(int id, UserEdit user);

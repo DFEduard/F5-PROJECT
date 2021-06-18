@@ -68,6 +68,7 @@ namespace APIUsers.Models.Database
         /// <returns></returns>
         public bool RegisterRefreshToken(string refreshToken, int userID)
         {
+
             string paramRefreshToken = "@refreshToken";
             string paramUserID = "@userID";
 
