@@ -51,9 +51,9 @@ Front end: https://github.com/DFEduard/F5-PROJECT-FRONTEND
   - Returns: 200
  
 # SQL script to create the db for this project
-Database used to develop: WEB DB
-Connection script has to be changed with new DB 
-APIUsers > appsettings.json > appsettings.Development.json - line 10
+- Database used to develop: WEB DB
+- Connection script has to be changed with new DB 
+- APIUsers > appsettings.json > appsettings.Development.json - line 10
 ```
 DROP TABLE IF EXISTS dbo.Token;
 DROP TABLE IF EXISTS dbo.Users;
