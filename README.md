@@ -9,7 +9,7 @@ MS SQL Server, C#, Web API, REST Services
   - POST: {{base_url}}/token/
   - Payload: {
     "email": "{{user email}}",
-    "passwird": {{user password}}
+    "password": {{user password}}
   }
   - - Return: access token (lifetime 5 minutes) refresh token (used to get a new access token)
   
