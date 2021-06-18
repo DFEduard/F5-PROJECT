@@ -50,7 +50,8 @@ Front end: https://github.com/DFEduard/F5-PROJECT-FRONTEND
   - DELETE: {{base_url}}/api/users/{{user_id}}/
   - Returns: 200
  
-# SQL script to create the db for this project 
+# SQL script to create the db for this project
+```
 DROP TABLE IF EXISTS dbo.Token;
 DROP TABLE IF EXISTS dbo.Users;
 
@@ -92,3 +93,4 @@ AS
 		delete from Token where Token.userID = @userID and Token.refresh != @tokenR
 	END;
 GO
+```
