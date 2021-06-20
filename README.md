@@ -52,7 +52,7 @@ Front end: https://github.com/DFEduard/F5-PROJECT-FRONTEND
  
 # SQL script to create the db for this project
 - Database name used to develop: WEB DB
-- Connection script has to be changed with new DB 
+- Connection string has to be changed with new DB 
 - APIUsers > appsettings.json > appsettings.Development.json - line 10
 ```
 DROP TABLE IF EXISTS dbo.Token;
